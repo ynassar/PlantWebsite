@@ -1,0 +1,85 @@
+{% load staticfiles %}
+
+<head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{% static 'HomepageStylesheet.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+    <script src="{% static 'HomepageJavascript.js' %}"></script>
+
+    <script src="https://use.fontawesome.com/3d8797fe11.js"></script>
+
+</head>
+<nav class="navbar navbar-inverse">
+	<div class="navbar-header">
+        <div class="container-fluid">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        <a class="navbar-brand" href="#">Logo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Plant Optimizer</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<body>
+
+
+    <div class="center-form well text-center">
+        <form action="/displayresult" method="post">
+            {% csrf_token %}
+
+            <div id="number-type-inputform">
+
+                <div class="input-group fade in" id="input-group-1">
+                    <span class="input-group-addon">I need </span>
+                    <input type="number" name="number-input-1" class="form-control">
+                    <span class="input-group-addon"> plants of type </span>
+                    <select class="form-control" name="type-input-1">
+                        {% for plant_type in plant_types %}
+                        <option>{{plant_type}}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="input-group-btn" id="plusbutton">
+                        <button class="btn btn-success addbtn" type="button">
+                            +
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">And my water consumption should not exceed</span>
+                <input type="number" value="1000" name="max-water-consumption" class="form-control">
+            </div>
+
+            <input class="hidden" id="numRows" name="num-rows" value="1">
+
+            <input type="submit" value="Solve!" class="btn btn-default">
+        </form>
+        <form action="/" method="post">
+            {% csrf_token %}
+            <input type="submit" class = "update-button btn btn-danger" value = "UpdateDB">
+        </form>
+    </div>
+
+    <span class="input-group-btn removebtn hidden" id="delbutton">
+        <button class="btn btn-danger" type="button" id="del-btn-1">x</button>
+    </span>
+
+
+</body>

@@ -1,0 +1,16 @@
+.center-form{
+    margin-left: 10%;
+    margin-right: 10%;
+    color:black;
+    background: white;
+    font: sans-serif;
+    height: 100%;
+}
+
+body{
+    background-color: #E0E0E0;
+}
+.and-button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
