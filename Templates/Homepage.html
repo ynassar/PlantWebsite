@@ -43,23 +43,70 @@
         <form action="/displayresult" method="post">
             {% csrf_token %}
 
-            <div id="number-type-inputform">
+          <div id="number-type-inputform">
 
-                <div class="input-group fade in" id="input-group-1">
-                    <span class="input-group-addon">I need </span>
-                    <input type="number" name="number-input-1" value="1" min = "1" class="form-control">
-                    <span class="input-group-addon"> plants of type </span>
-                    <select class="form-control" name="type-input-1">
-                        {% for plant_type in plant_types %}
-                        <option>{{plant_type}}</option>
-                        {% endfor %}
-                    </select>
-                    <span class="input-group-btn" id="plusbutton">
-                        <button class="btn btn-success addbtn" type="button">
-                            +
-                        </button>
-                    </span>
-                </div>
+              <div id="input-group-1" class="inputs">
+                  <div class="input-group fade in" >
+                      <span class="input-group-addon">I need </span>
+                      <input type="number" name="number-input-1" value="1" min = "1" class="form-control">
+                      <span class="input-group-addon"> plant(s) of type </span>
+                      <select class="form-control" name="type-input-1">
+                          {% for plant_type in plant_types %}
+                          <option>{{plant_type}}</option>
+                          {% endfor %}
+                      </select>
+                      <span class="input-group-addon"> that should be at least </span>
+                      <select class="form-control" name="salt-tolerance-input-1" value="No preference">
+                          <option>Tolerant</option>
+                          <option>L. Tolerant</option>
+                          <option>M. Tolerant</option>
+                          <option selected="selected">No preference</option>
+                      </select>
+                      <span class="input-group-addon"> to salt</span>
+                      <span class="input-group-btn" id="plusbutton">
+                          <button class="btn btn-success addbtn" type="button">
+                              +
+                          </button>
+                      </span>
+              		</div>
+                  	<div class="input-group">
+						<span class="input-group-addon"> and at least </span>
+                        <select class="form-control" name="drought-tolerance-input-1">
+                          <option>Tolerant</option>
+                          <option>L. Tolerant</option>
+                          <option>M. Tolerant</option>
+                          <option selected="selected">No preference</option>
+                        </select>
+                        <span class="input-group-addon">to droughts, with a min spread of at least </span>
+						<input type="number" name="min-spread-input-1" value="0" class="form-control">
+						<span class="input-group-addon"> meters,</span>
+                    </div>
+                    <div class="input-group">
+                    	<span class="input-group-addon">meters, a min height of at least </span>
+                        <input type="number" name="min-height-input-1" value="0" class="form-control">
+                        <span class="input-group-addon">meters, and min roots of at least</span>
+                        <input type="number" class="form-control" value="0" name="min-roots-input-1">
+                        <span class="input-group-addon">meters.</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"> and that bloom in</span>
+					    <span class="input-group-addon">
+							Jan <input type="checkbox" name="blooms-in-jan-input-1">
+                            Feb <input type="checkbox" name="blooms-in-feb-input-1">
+                            Mar <input type="checkbox" name="blooms-in-mar-input-1">
+                            Apr <input type="checkbox" name="blooms-in-apr-input-1">
+                            May <input type="checkbox" name="blooms-in-may-input-1">
+                            Jun <input type="checkbox" name="blooms-in-jun-input-1">
+                            Jul <input type="checkbox" name="blooms-in-jul-input-1">
+                            Aug <input type="checkbox" name="blooms-in-aug-input-1">
+                            Sep <input type="checkbox" name="blooms-in-sep-input-1">
+                            Oct <input type="checkbox" name="blooms-in-oct-input-1">
+                            Nov <input type="checkbox" name="blooms-in-nov-input-1">
+                            Dec <input type="checkbox" name="blooms-in-dec-input-1">
+						</span>
+                    </div>
+              </div>
+
             </div>
             <div class="input-group">
                 <span class="input-group-addon">And my water consumption should not exceed</span>

@@ -141,10 +141,28 @@ def getDataFromPOST(POST):
     for i in range(1, numFields + 1):
         numRequired = int(POST["number-input-" + str(i)])
         typeRequired = POST["type-input-" + str(i)]
+        minSaltTolerance = POST["salt-tolerance-input-" + str(i)]
+        minDroughtTolerance = POST["drought-tolerance-input-" + str(i)]
+        bloomsIn = [False for k in range(12)]
+        minHeight = POST["min-height-input-" + str(i)]
+        minSpread = POST["min-spread-input-" + str(i)]
+        minRoots = POST["min-roots-input-" + str(i)]
+        months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+        for j in range(12):
+            if 'blooms-in-' + months[j] + '-input-' + str(i) in POST:
+                bloomsIn[j] = True
+
         if not typeRequired in typesRequired:
-            typesRequired[typeRequired] = numRequired
+            typesRequired[typeRequired] = {'numReq' : numRequired}
         else:
-            typesRequired[typeRequired] += numRequired
+            typesRequired[typeRequired]['numReq'] += numRequired
+        typesRequired[typeRequired]['minSaltTolerance'] = minSaltTolerance
+        typesRequired[typeRequired]['minDroughtTolerance'] = minDroughtTolerance
+        typesRequired[typeRequired]['bloomsIn'] = bloomsIn
+        typesRequired[typeRequired]['minHeight'] = minHeight
+        typesRequired[typeRequired]['minSpread'] = minSpread
+        typesRequired[typeRequired]['minRoots'] = minRoots
+
     return (maxWaterConsumption, typesRequired)
 
 def solve(request):
@@ -158,14 +176,14 @@ def solve(request):
         plantInfo.append({
             'serialNumber' : plant.serial_number,
             'classification' : plant.classification,
-            'numRequested' : typesRequired[plant.classification],
-            'waterConsumption' : typesRequired[plant.classification] * getWaterConsumption(plant),
-            'totalCost' : typesRequired[plant.classification] * getCost(plant),
+            'numRequested' : typesRequired[plant.classification]['numReq'],
+            'waterConsumption' : typesRequired[plant.classification]['numReq'] * getWaterConsumption(plant),
+            'totalCost' : typesRequired[plant.classification]['numReq'] * getCost(plant),
             'commonName' : plant.common_name,
             'latinName' : plant.latin_name
         })
-        sumOfCosts += typesRequired[plant.classification] * getCost(plant)
-        totalWC += typesRequired[plant.classification] * getWaterConsumption(plant)
+        sumOfCosts += typesRequired[plant.classification]['numReq'] * getCost(plant)
+        totalWC += typesRequired[plant.classification]['numReq'] * getWaterConsumption(plant)
 
     return render(request, 'DisplaySolution.html', {
         'solution_plants' : plantInfo,
