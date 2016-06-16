@@ -1,0 +1,93 @@
+{% load staticfiles %}
+
+<head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{% static 'DisplaySolutionStylesheet.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+    <script src="{% static 'DisplaySolutionJavascript.js' %}"></script>
+
+    <script src="https://use.fontawesome.com/3d8797fe11.js"></script>
+
+</head>
+<nav class="navbar navbar-inverse">
+	<div class="navbar-header">
+        <div class="container-fluid">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        <a class="navbar-brand" href="#">Logo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Plant Optimizer</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<body>
+    <div class="center-form well text-center">
+        {% if solutionExists %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Classification</th>
+                    <th>Serial Number</th>
+                    <th>Common Name</th>
+                    <th>Latin Name</th>
+                    <th>Number Requested</th>
+                    <th>Water Consumption</th>
+                    <th>Total Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for plant in solution_plants %}
+                    <tr>
+                    	<td> {{ plant.classification }} </td>
+                        <td> {{plant.serialNumber}} </td>
+                        <td> {{plant.commonName}} </td>
+                        <td> {{plant.latinName}} </td>
+                        <td> {{plant.numRequested}} </td>
+                        <td> {{plant.waterConsumption}} </td>
+                        <td> {{plant.totalCost}} </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+                <tfoot>
+                	<tr>
+                		<td><strong> Totals:</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>{{totalWaterConsumption}}</strong></td>
+                        <td><strong>{{sumOfCosts}}</strong></td>
+                	</tr>
+                </tfoot>
+          </table>
+        </div>
+        {% else %}
+
+        <strong> No solutions that satisfy the necessary requirements exist </strong>
+
+
+        {% endif %}
+    </div>
+
+
+</body>
+

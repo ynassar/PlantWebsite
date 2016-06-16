@@ -37,9 +37,8 @@
     </div>
   </div>
 </nav>
+
 <body>
-
-
     <div class="center-form well text-center">
         <form action="/displayresult" method="post">
             {% csrf_token %}
@@ -48,7 +47,7 @@
 
                 <div class="input-group fade in" id="input-group-1">
                     <span class="input-group-addon">I need </span>
-                    <input type="number" name="number-input-1" class="form-control">
+                    <input type="number" name="number-input-1" value="1" min = "1" class="form-control">
                     <span class="input-group-addon"> plants of type </span>
                     <select class="form-control" name="type-input-1">
                         {% for plant_type in plant_types %}

@@ -1,8 +1,13 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.http import HttpRequest
 from django.http import HttpResponse
 from django.template.loader import get_template
 from models import Plant
+from optimization import getOptimalSolution
+from optimization import getCost
+from optimization import getWaterConsumption
+
 import csv
 # Create your views here.
 import os
@@ -129,7 +134,42 @@ def homepage(request):
                   }
                  )
 
+def getDataFromPOST(POST):
+    maxWaterConsumption = int(POST["max-water-consumption"])
+    numFields = int(POST["num-rows"])
+    typesRequired = {}
+    for i in range(1, numFields + 1):
+        numRequired = int(POST["number-input-" + str(i)])
+        typeRequired = POST["type-input-" + str(i)]
+        if not typeRequired in typesRequired:
+            typesRequired[typeRequired] = numRequired
+        else:
+            typesRequired[typeRequired] += numRequired
+    return (maxWaterConsumption, typesRequired)
+
 def solve(request):
-    if request.method == 'POST':
-        print(request.POST)
-    return HttpResponse("WHATEVER");
+    if not 'number-input-1' in request.POST:
+        return redirect("/")
+    maxWaterConsumption, typesRequired = getDataFromPOST(request.POST)
+    (sol, plantList) = getOptimalSolution(maxWaterConsumption, typesRequired)
+    plantInfo = []
+    sumOfCosts, totalWC = 0, 0
+    for plant in plantList:
+        plantInfo.append({
+            'serialNumber' : plant.serial_number,
+            'classification' : plant.classification,
+            'numRequested' : typesRequired[plant.classification],
+            'waterConsumption' : typesRequired[plant.classification] * getWaterConsumption(plant),
+            'totalCost' : typesRequired[plant.classification] * getCost(plant),
+            'commonName' : plant.common_name,
+            'latinName' : plant.latin_name
+        })
+        sumOfCosts += typesRequired[plant.classification] * getCost(plant)
+        totalWC += typesRequired[plant.classification] * getWaterConsumption(plant)
+
+    return render(request, 'DisplaySolution.html', {
+        'solution_plants' : plantInfo,
+        'solutionExists' : len(plantInfo) != 0,
+        'sumOfCosts' : sumOfCosts,
+        'totalWaterConsumption' : totalWC,
+    });

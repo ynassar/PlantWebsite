@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var numRows = 1;
-    var maxRows = 10;
+    var maxRows = 9;
     $(document).on("click", ".addbtn", function(event){
         if(numRows < maxRows)
         {
@@ -27,8 +27,8 @@ $(document).ready(function(){
         var numClickedOn = getIDNumberFromString(event.target.id, 8);
         var form = document.getElementById("number-type-inputform");
 
-        $("#" + "input-group-" + numClickedOn.toString()).fadeOut(1000, function() {
-           $(this).remove();
+        $("#" + "input-group-" + numClickedOn.toString()).animate({"margin-left" : "+=1000"}, function(){
+            $("#" + "input-group-" + numClickedOn.toString()).remove();
         });
         //form.removeChild(document.getElementById("input-group-" + numClickedOn.toString()));
         for(var i = numClickedOn + 1; i <= numRows; i++)
