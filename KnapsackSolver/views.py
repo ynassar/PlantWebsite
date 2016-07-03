@@ -7,6 +7,7 @@ from models import Plant
 from optimization import getOptimalSolution
 from optimization import getCost
 from optimization import getWaterConsumption
+import json
 
 import csv
 # Create your views here.
@@ -167,27 +168,44 @@ def getDataFromPOST(POST):
 
 def solve(request):
     if not 'number-input-1' in request.POST:
-        return redirect("/")
+        return redirect("/optimizer")
     maxWaterConsumption, typesRequired = getDataFromPOST(request.POST)
-    (sol, plantList) = getOptimalSolution(maxWaterConsumption, typesRequired)
+    (sol, plantList, allSolutions) = getOptimalSolution(maxWaterConsumption, typesRequired)
     plantInfo = []
     sumOfCosts, totalWC = 0, 0
+    xs = []
+    ys = []
+    for (x, y) in allSolutions:
+        xs.append(x)
+        ys.append(y)
+
     for plant in plantList:
         plantInfo.append({
             'serialNumber' : plant.serial_number,
             'classification' : plant.classification,
             'numRequested' : typesRequired[plant.classification]['numReq'],
             'waterConsumption' : typesRequired[plant.classification]['numReq'] * getWaterConsumption(plant),
-            'totalCost' : typesRequired[plant.classification]['numReq'] * getCost(plant),
+            'totalCost' : "{:,}".format(typesRequired[plant.classification]['numReq'] * getCost(plant)),
             'commonName' : plant.common_name,
             'latinName' : plant.latin_name
         })
         sumOfCosts += typesRequired[plant.classification]['numReq'] * getCost(plant)
         totalWC += typesRequired[plant.classification]['numReq'] * getWaterConsumption(plant)
-
     return render(request, 'DisplaySolution.html', {
+        'xs' : json.dumps(xs),
+        'ys' : json.dumps(ys),
         'solution_plants' : plantInfo,
         'solutionExists' : len(plantInfo) != 0,
-        'sumOfCosts' : sumOfCosts,
+        'sumOfCosts' : "{:,}".format(sumOfCosts),
         'totalWaterConsumption' : totalWC,
     });
+
+def optimizer(request):
+    if request.method == 'POST':
+        update_db()
+    return render(request, 'Optimizer.html',
+                  {
+                   'plant_types' : ['Aquatic Plants', 'Climbers', 'Ground Cover', 'Ornamental Grass',
+                                   'Palm-like', 'Palms', 'Shrubs', 'Succulent', 'Trees']
+                  }
+                 )

@@ -20,5 +20,6 @@ import KnapsackSolver.views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', KnapsackSolver.views.homepage),
+    url(r'^optimizer$', KnapsackSolver.views.optimizer),
     url(r'^displayresult', KnapsackSolver.views.solve),
 ]

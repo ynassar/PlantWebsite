@@ -23,7 +23,6 @@ def getRequiredArr(typesRequired):
         minSpread = typesRequired[typeRequired]['minSpread']
         minHeight = typesRequired[typeRequired]['minHeight']
         typeArr = Plant.objects.filter(classification=typeRequired)
-        print(bloomsIn)
         for i in range(saltToleranceIdx - 1, 0, -1):
             typeArr = typeArr.exclude(salt_tolerance = toleranceLevels[i])
         for i in range(droughtToleranceIdx - 1,0, -1):
@@ -77,7 +76,7 @@ def getOptimalSolutionRec(typesRequired, waterConsumptionLeft, requiredArr, dpAr
     currentItemWaterConsumption = numRequired * getWaterConsumption(requiredArr[i][j])
     currentItemCost = numRequired * getCost(requiredArr[i][j])
 
-    if waterConsumptionLeft >= getWaterConsumption(requiredArr[i][j]):
+    if waterConsumptionLeft >= currentItemWaterConsumption:
         solution = min(currentItemCost +
                  getOptimalSolutionRec(typesRequired, waterConsumptionLeft - currentItemWaterConsumption, requiredArr, dpArr, i + 1, 0),
                   getOptimalSolutionRec(typesRequired, waterConsumptionLeft, requiredArr, dpArr, i, j + 1))
@@ -99,7 +98,7 @@ def getActualPlantsRec(typesRequired, waterConsumptionLeft, requiredArr, dpArr, 
     currentItemWaterConsumption = numRequired * getWaterConsumption(requiredArr[i][j])
     currentItemCost = numRequired * getCost(requiredArr[i][j])
 
-    if waterConsumptionLeft >= getWaterConsumption(requiredArr[i][j]):
+    if waterConsumptionLeft >= currentItemWaterConsumption:
         if dpArr[(waterConsumptionLeft, i, j)] == currentItemCost + dpArr[(waterConsumptionLeft - currentItemWaterConsumption, i + 1, 0)]:
             actualPlants.append(requiredArr[i][j])
             getActualPlantsRec(typesRequired, waterConsumptionLeft - currentItemWaterConsumption, requiredArr, dpArr, i + 1, 0, actualPlants)
@@ -109,6 +108,19 @@ def getActualPlantsRec(typesRequired, waterConsumptionLeft, requiredArr, dpArr, 
 
     getActualPlantsRec(typesRequired, waterConsumptionLeft, requiredArr, dpArr, i, j + 1, actualPlants)
 
+def listAllSolutionsRec(solutionsList, i, j, waterConsumptionLeft, cost, maxWaterConsumption, requiredArr, typesRequired):
+    if i == len(requiredArr):
+        solutionsList.append((maxWaterConsumption - waterConsumptionLeft, cost))
+        return
+    if j == len(requiredArr[i]):
+        return
+    numRequired = typesRequired[requiredArr[i][j].classification]['numReq']
+    currentItemWaterConsumption = numRequired * getWaterConsumption(requiredArr[i][j])
+    currentItemCost = numRequired * getCost(requiredArr[i][j])
+    if waterConsumptionLeft >= currentItemWaterConsumption:
+        listAllSolutionsRec(solutionsList, i + 1, 0, waterConsumptionLeft - currentItemWaterConsumption, cost + currentItemCost, maxWaterConsumption, requiredArr, typesRequired)
+    listAllSolutionsRec(solutionsList, i, j + 1, waterConsumptionLeft, cost, maxWaterConsumption, requiredArr, typesRequired)
+
 
 def getOptimalSolution(maxWaterConsumption, typesRequired):
     requiredArr = getRequiredArr(typesRequired)
@@ -116,4 +128,6 @@ def getOptimalSolution(maxWaterConsumption, typesRequired):
     optimalSolution = getOptimalSolutionRec(typesRequired, maxWaterConsumption, requiredArr, dpArr, 0,0)
     actualPlants = []
     getActualPlantsRec(typesRequired, maxWaterConsumption, requiredArr, dpArr, 0,0, actualPlants)
-    return (optimalSolution, actualPlants)
+    solutionsList = []
+    listAllSolutionsRec(solutionsList, 0, 0, maxWaterConsumption, 0, maxWaterConsumption, requiredArr, typesRequired)
+    return (optimalSolution, actualPlants, solutionsList)

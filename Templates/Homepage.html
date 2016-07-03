@@ -31,101 +31,27 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Home</a></li>
         <li><a href="#">About</a></li>
-        <li><a href="#">Plant Optimizer</a></li>
+        <li><a href="/optimizer">Plant Optimizer</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
     </div>
   </div>
 </nav>
-
 <body>
-    <div class="center-form well text-center">
-        <form action="/displayresult" method="post">
-            {% csrf_token %}
 
-          <div id="number-type-inputform">
+    <div class="containter-fluid center-form well">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sollicitudin sagittis tincidunt. Mauris at nulla sagittis, porttitor justo in, hendrerit dolor. Donec sodales, leo nec dictum tempor, lorem elit blandit dolor, nec posuere est lorem sit amet dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus magna erat, dapibus eget hendrerit at, auctor vel tortor. Fusce magna ipsum, dictum in justo in, molestie congue turpis. Praesent volutpat magna vitae enim tincidunt, ut maximus mi ornare. Pellentesque tincidunt nisi quis elit lacinia dapibus.</p>
 
-              <div id="input-group-1" class="inputs">
-                  <div class="input-group fade in" >
-                      <span class="input-group-addon">I need </span>
-                      <input type="number" name="number-input-1" value="1" min = "1" class="form-control">
-                      <span class="input-group-addon"> plant(s) of type </span>
-                      <select class="form-control" name="type-input-1">
-                          {% for plant_type in plant_types %}
-                          <option>{{plant_type}}</option>
-                          {% endfor %}
-                      </select>
-                      <span class="input-group-addon"> that should be at least </span>
-                      <select class="form-control" name="salt-tolerance-input-1" value="No preference">
-                          <option>Tolerant</option>
-                          <option>L. Tolerant</option>
-                          <option>M. Tolerant</option>
-                          <option selected="selected">No preference</option>
-                      </select>
-                      <span class="input-group-addon"> to salt</span>
-                      <span class="input-group-btn" id="plusbutton">
-                          <button class="btn btn-success addbtn" type="button">
-                              +
-                          </button>
-                      </span>
-              		</div>
-                  	<div class="input-group">
-						<span class="input-group-addon"> and at least </span>
-                        <select class="form-control" name="drought-tolerance-input-1">
-                          <option>Tolerant</option>
-                          <option>L. Tolerant</option>
-                          <option>M. Tolerant</option>
-                          <option selected="selected">No preference</option>
-                        </select>
-                        <span class="input-group-addon">to droughts, with a min spread of at least </span>
-						<input type="number" name="min-spread-input-1" value="0" class="form-control">
-						<span class="input-group-addon"> meters,</span>
-                    </div>
-                    <div class="input-group">
-                    	<span class="input-group-addon">meters, a min height of at least </span>
-                        <input type="number" name="min-height-input-1" value="0" class="form-control">
-                        <span class="input-group-addon">meters, and min roots of at least</span>
-                        <input type="number" class="form-control" value="0" name="min-roots-input-1">
-                        <span class="input-group-addon">meters.</span>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon"> and that bloom in</span>
-					    <span class="input-group-addon">
-							Jan <input type="checkbox" name="blooms-in-jan-input-1">
-                            Feb <input type="checkbox" name="blooms-in-feb-input-1">
-                            Mar <input type="checkbox" name="blooms-in-mar-input-1">
-                            Apr <input type="checkbox" name="blooms-in-apr-input-1">
-                            May <input type="checkbox" name="blooms-in-may-input-1">
-                            Jun <input type="checkbox" name="blooms-in-jun-input-1">
-                            Jul <input type="checkbox" name="blooms-in-jul-input-1">
-                            Aug <input type="checkbox" name="blooms-in-aug-input-1">
-                            Sep <input type="checkbox" name="blooms-in-sep-input-1">
-                            Oct <input type="checkbox" name="blooms-in-oct-input-1">
-                            Nov <input type="checkbox" name="blooms-in-nov-input-1">
-                            Dec <input type="checkbox" name="blooms-in-dec-input-1">
-						</span>
-                    </div>
-              </div>
+        <p>Donec a nisl ut turpis viverra pellentesque. Etiam bibendum dolor mi. Donec pretium venenatis turpis eget semper. In hac habitasse platea dictumst. Phasellus condimentum eu massa sit amet pharetra. Aenean blandit at ex luctus suscipit. Duis tincidunt tincidunt ultricies. Nunc ac elementum mi, quis faucibus diam. Donec placerat convallis sapien sit amet suscipit. Curabitur at maximus est. Proin nibh felis, imperdiet ut dictum sit amet, vulputate eu ligula. Sed sed arcu diam.</p>
 
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">And my water consumption should not exceed</span>
-                <input type="number" value="1000" name="max-water-consumption" class="form-control">
-            </div>
+        <p>Mauris id augue scelerisque, rutrum ipsum sed, pulvinar nulla. Sed eleifend lacus tortor, in iaculis neque pellentesque ac. Suspendisse lacinia ante magna, ac pulvinar mauris euismod at. Sed blandit semper lorem. Sed rhoncus orci id justo blandit faucibus. In erat nisi, malesuada non orci eget, gravida pulvinar ex. Pellentesque vel vulputate elit, at cursus velit. Pellentesque nisi purus, egestas ut nulla et, facilisis venenatis nibh. Suspendisse auctor fermentum sem ac fringilla. Proin sit amet pellentesque massa. Phasellus ornare scelerisque eros eget efficitur. Duis lectus tellus, convallis sed sapien in, efficitur eleifend diam. Aenean elementum, enim ac porttitor convallis, diam mauris auctor ligula, ut luctus arcu orci luctus magna. Vestibulum lacinia ultricies facilisis. In vehicula auctor venenatis. Etiam pulvinar odio purus, sed feugiat erat consequat at.</p>
 
-            <input class="hidden" id="numRows" name="num-rows" value="1">
+        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut velit ante, elementum a placerat a, sodales sit amet ex. Curabitur ullamcorper libero sed nisl ornare sagittis at sit amet libero. Nulla facilisi. Proin laoreet ligula eros, eget pharetra metus rhoncus vitae. Praesent mattis, elit ac dignissim eleifend, nibh nunc blandit orci, et euismod lectus arcu at orci. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
 
-            <input type="submit" value="Solve!" class="btn btn-default">
-        </form>
-        <form action="/" method="post">
-            {% csrf_token %}
-            <input type="submit" class = "update-button btn btn-danger" value = "UpdateDB">
-        </form>
+        <p>Praesent quis volutpat est, vel elementum elit. Mauris non purus arcu. Sed condimentum cursus justo sed ornare. Mauris quis sem non arcu tempus lacinia nec a nisl. Pellentesque ex diam, lobortis id neque eget, commodo suscipit nisi. Maecenas dapibus lacinia enim in congue. Aliquam a pharetra tellus. Nam ut iaculis urna. Proin euismod nisl non est hendrerit, non vehicula ex convallis. In odio leo, placerat sit amet tortor quis, porta auctor lorem. Nulla vestibulum tellus ut felis fermentum bibendum. Maecenas viverra rutrum consequat. Duis at eros ipsum. Maecenas convallis vel massa eget sollicitudin.</p>
+
+        <p>Donec cursus lacinia facilisis. Pellentesque nec consequat ex, nec posuere risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sagittis tortor in elit auctor, a sollicitudin felis aliquam. Maecenas vel pretium enim. Pellentesque rhoncus scelerisque pharetra. Nulla facilisi.</p>
+
+        <p>Duis ultricies vel urna quis eleifend. Nam finibus nibh ut odio mattis ullamcorper. Morbi fringilla nibh mi, sit amet auctor lorem ornare a. Nulla finibus tincidunt mattis. Pellentesque vitae lacus mauris. Etiam dapibus turpis lobortis sodales lacinia. Donec vel eros fringilla, consequat dolor in, tempor tortor. Mauris sodales justo et placerat lobortis. Nam bibendum mauris sem, sed imperdiet urna faucibus sit amet. Aenean eu urna eu libero vulputate venenatis. Donec mattis imperdiet est, ac feugiat sem consectetur eu. Donec pharetra cursus urna in rutrum. Vestibulum dictum, nulla porta varius malesuada, lectus nibh porttitor augue, eu efficitur elit ligula a diam.</p>
     </div>
-
-    <span class="input-group-btn removebtn hidden" id="delbutton">
-        <button class="btn btn-danger" type="button" id="del-btn-1">x</button>
-    </span>
-
-
 </body>
